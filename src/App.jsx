@@ -1,32 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component } from "react";
 
-function App() {
-  return (
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      list: ["ready", "set", "GO"],
+      text: ""
+    };
+    this.addItem = this.addItem.bind(this);
+  }
+  addItem() {
+    let newItems = [...this.state.list, this.state.text];
+    this.setState({ list: newItems, text: ""});
+  }
+
+  deleteItem(item) {
+    let filteredItems = this.state.list.filter((value) => value != item);
+    this.setState({ list: filteredItems });
+  }
+  render() {
+    let listItems = this.state.list.map((item, idx) =>(
+      <Item key={idx} content={item} onDelete={() => this.deleteItem(item)} />
+    ));
+
+    let heading = <h1>Hello World</h1>
+
+    return (
     <div className="App">
       <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-         React is so cool!
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-      
-        </a>
-        <h1>Hey, I'm walkin here!</h1>
-        <p>Its been a long day, and I'm just writing whatever pops up in my head.</p>
+        <h1>Hello World</h1>
         <ul>
-          <li>Grit</li>
-          <li>spit</li>
-          <li>And a whole lotta duct tape!</li>
-        </ul>
+         {listItems}</ul>
+         <div><input 
+         type="text" 
+         name="newTask" 
+         id="newTask"
+         value={this.state.text}
+         onChange={(event) => this.setState({ text: event.target.value})}/>
+         <button onClick={this.addItem}>Add</button>
+         </div>
+       
       </header>
     </div>
   );
 }
+}
+export default App;
 
 export default App;
