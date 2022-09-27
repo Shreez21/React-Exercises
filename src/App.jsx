@@ -1,4 +1,6 @@
 import { Component } from "react";
+import Item from "./components/item.jsx";
+import FilmsList from "./components/filmslist.jsx";
 
 class App extends Component {
   constructor(props) {
@@ -30,6 +32,7 @@ class App extends Component {
     <div className="App">
       <header className="App-header">
         <h1>Hello World</h1>
+        <FilmsList/>
         <ul>
          {listItems}</ul>
          <div><input 
@@ -48,4 +51,4 @@ class App extends Component {
 }
 export default App;
 
-export default App;
+
