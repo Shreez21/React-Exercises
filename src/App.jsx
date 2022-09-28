@@ -1,32 +1,30 @@
-import { Component } from "react";
+import { useState } from "react";
 import Item from "./components/item.jsx";
 import FilmsList from "./components/filmslist.jsx";
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+function App(props) {
+  let [list, setList] = useState(["ready", "set", "GO"])
+  let [text, setText] = useState("")
 
-    this.state = {
-      list: ["ready", "set", "GO"],
-      text: ""
-    };
-    this.addItem = this.addItem.bind(this);
+  function onSubmit (event) {
+    event.preventDefault();
+
+    let newList = [...list, text];
+    setList(newList);
+    setText("");
   }
-  addItem() {
-    let newItems = [...this.state.list, this.state.text];
-    this.setState({ list: newItems, text: ""});
+ 
+  function addItem(event) {
+    let newItems = [...list, text];
+    setList (newItems)
+    setText("");
   }
 
-  deleteItem(item) {
-    let filteredItems = this.state.list.filter((value) => value != item);
-    this.setState({ list: filteredItems });
+ function deleteItem(item) {
+    let filteredItems = list.filter((value) => value != item);
+    setList( filteredItems );
   }
-  render() {
-    let listItems = this.state.list.map((item, idx) =>(
-      <Item key={idx} content={item} onDelete={() => this.deleteItem(item)} />
-    ));
-
-    let heading = <h1>Hello World</h1>
+//Exercise 6 step 5: Update the return statement to map over list instead of this.state.list?
 
     return (
     <div className="App">
@@ -39,15 +37,14 @@ class App extends Component {
          type="text" 
          name="newTask" 
          id="newTask"
-         value={this.state.text}
-         onChange={(event) => this.setState({ text: event.target.value})}/>
+         value={text}
+         onChange={(event) => setText({ text: event.target.value})}/>
          <button onClick={this.addItem}>Add</button>
          </div>
        
       </header>
     </div>
   );
-}
 }
 export default App;
 

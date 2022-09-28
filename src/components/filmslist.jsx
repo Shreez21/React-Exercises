@@ -1,44 +1,36 @@
-import { Component } from "react";
-//import { getData } from "../../helpers/data";
-//import { useState, useEffect } from "react";
 
-class FilmsList extends Component {
-    constructor(props) {
-        super (props)
+import { getData } from "../../helpers/data";
+import { useState, useEffect } from "react";
 
-        this.state = {
-            list: [],
-            hasLoaded: false,
-        };
-    }
+function FilmsList(props) {
+let [list, setList] = useState([])
+let [isLoading, setIsLoading] = useState(true);
 
-    async getFilms() {
-        console.log("get films");
-        try {
-    let res = await fetch("https://ghibliapi.herokuapp.com/films");
-        let list = await res.json();
-        console.log("setting state");
-        this.setState({ list, hasLoaded: true });
-        console.log("state has been set");
-    } catch (err) {
-        console.error(err);
-    }
+    //function FilmsList(props) {
+        //let [list, setList] = useState([])
+//let [isLoading, sethasLoaded] = useState(true);
+ //   }
+
+    async function getFilms() {
+     let list = await getData("films");
+     setList(list);
+     setIsLoading(false);
 }
 
-componentDidMount() {
-    this.getFilms();
-}
+useEffect(()=> {
+    getFilms();
+}, []);
 
-render() {
-    if (!this.state.hasLoaded) {
+    if (isLoading) {
     return <p>Loading...</p>;
     } else{
     return (
     <ul>
-       {this.state.list.map((film) => (<li key={film.id}>{film.title}</li>))}
+       {list.map((film) => 
+       (<li key={film.id }>{film.title}</li>
+       ))}
     </ul>
     );
     }
-}
 }
 export default FilmsList;
