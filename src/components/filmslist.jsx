@@ -1,5 +1,4 @@
 
-import { getData } from "../../helpers/data";
 import { useState, useEffect } from "react";
 
 function FilmsList(props) {
@@ -12,8 +11,9 @@ let [isLoading, setIsLoading] = useState(true);
  //   }
 
     async function getFilms() {
-     let list = await getData("films");
-     setList(list);
+     let res = await fetch("https://ghibliapi.herokuapp.com/films");
+     let data = await res.json()
+     setList(data);
      setIsLoading(false);
 }
 
