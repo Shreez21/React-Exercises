@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
-import { filterFilmsByDirector, getListOf} from "../helper/film.helpers"
+import { filterFilmsByDirector, getListOf, getFilmStats } from "../helper/film.helpers"
+import { Link } from "react-router-dom"
 
 function FilmsPage(props) {
 let [list, setList] = useState([])
@@ -20,6 +21,7 @@ useEffect(()=> {
 
 let filmsByDirector = filterFilmsByDirector(list, searchDirector);
 let directors = getListOf(list, "director");
+let { avg_score, latest, total } = getFilmStats(filmsByDirector);
     return (
         <div>
             <h1> Studio Ghibli Films</h1>
@@ -38,9 +40,26 @@ let directors = getListOf(list, "director");
                     })}
                 </select>
             </form>
+            <div>
+  <div>
+    <span># Of Films</span>
+    <span>{total}</span>
+  </div>
+  <div>
+    <span>Average Rating</span>
+    <span>{avg_score.toFixed(2)}</span>
+  </div>
+  <div>
+    <span>Latest Film</span>
+    <span>{latest}</span>
+  </div>
+</div>
             <ul>
                 {filmsByDirector.map((film) => {
-                    return <li key={film.id}>{film.title}</li>;
+                    return (
+                    <li key={film.id}>
+                        <Link to={`/films/${film.id}`}>{film.title}</Link></li>
+                    );
                 })}
             </ul>
         </div>
